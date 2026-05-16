@@ -1,0 +1,8 @@
+{
+  "name": "Chick-fil-A Experience",
+  "description": "A high-converting, production-ready brand experience for Chick-fil-A featuring Fan Favorites, rewards, and Southern hospitality.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chick-fil-A | More Than a Meal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cfa-red: #E4002B;
+            --cfa-dark-red: #B00021;
+            --cfa-cream: #FFF5E4;
+            --cfa-white: #FFFFFF;
+            --cfa-charcoal: #1A1A1A;
+            --f-serif: 'Georgia', serif;
+            --f-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--f-sans);
+            color: var(--cfa-charcoal);
+            background-color: var(--cfa-cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: var(--f-serif);
+        }
+
+        /* --- PROMO TICKER --- */
+        .promo-ticker {
+            background: #FFD200;
+            color: #000;
+            text-align: center;
+            padding: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        /* --- STICKY NAV --- */
+        nav {
+            position: fixed;
+            top: 27px; /* Below ticker */
+            width: 100%;
+            height: 64px;
+            z-index: 1000;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-smooth);
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: var(--cfa-white);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: var(--f-serif);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--cfa-white);
+            text-decoration: none;
+            letter-spacing: -1px;
+            transition: var(--transition-smooth);
+        }
+
+        nav.scrolled .logo {
+            color: var(--cfa-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--cfa-white);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        nav.scrolled .nav-links a {
+            color: var(--cfa-charcoal);
+        }
+
+        .nav-links a:hover {
+            color: var(--cfa-red);
+        }
+
+        nav.scrolled .nav-links a:hover {
+            color: var(--cfa-red);
+        }
+
+        .btn-order {
+            background: var(--cfa-white);
+            color: var(--cfa-red) !important;
+            padding: 10px 24px;
+            border-radius: 99px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: var(--transition-smooth);
+        }
+
+        nav.scrolled .btn-order {
+            background: var(--cfa-red);
+            color: white !important;
+        }
+
+        .btn-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--cfa-white);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        nav.scrolled .hamburger span {
+            background: var(--cfa-red);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            min-height: 100vh;
+            padding-top: 91px; /* Ticker + Nav */
+            display: flex;
+            align-items: center;
+            background: var(--cfa-cream);
+        }
+
+        .hero-container {
+            display: flex;
+            width: 100%;
+            min-height: calc(100vh - 91px);
+        }
+
+        .hero-side {
+            flex: 1.2;
+            background: linear-gradient(135deg, var(--cfa-red) 0%, var(--cfa-dark-red) 100%);
+            color: white;
+            padding: 60px 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-side::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .hero-h1 {
+            font-family: var(--f-serif);
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.95;
+            margin: 0 0 24px 0;
+            font-weight: bold;
+        }
+
+        .hero-p {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 500px;
+            font-weight: 300;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--cfa-red);
+            padding: 14px 32px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-white:hover, .btn-outline:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .hero-image-side {
+            flex: 1;
+            background: var(--cfa-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Pattern for non-image hero side */
+        .hero-image-side::after {
+            content: "🍔";
+            font-size: 200px;
+            opacity: 0.1;
+            filter: grayscale(1);
+        }
+
+        /* --- MENU SECTION --- */
+        #menu {
+            padding: 100px 8%;
+            background: var(--cfa-cream);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid rgba(228,0,43,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--cfa-red);
+        }
+
+        .view-all-link {
+            font-size: 14px;
+            color: var(--cfa-charcoal);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .view-all-link:hover {
+            color: var(--cfa-red);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition-smooth);
+            border: 1px solid #f0f0f0;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .food-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .food-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .food-price {
+            color: var(--cfa-red);
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .food-desc {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .add-btn {
+            background: #f8f8f8;
+            border: 1px solid #eee;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            background: var(--cfa-red);
+            color: white;
+            border-color: var(--cfa-red);
+        }
+
+        /* --- ABOUT --- */
+        #about {
+            padding: 100px 8%;
+            background: white;
+        }
+
+        .features-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .feature-block {
+            text-align: left;
+            padding: 20px;
+            border-left: 4px solid var(--cfa-red);
+        }
+
+        .feature-block h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- REWARDS --- */
+        #rewards {
+            background: white;
+            padding: 80px 8%;
+        }
+
+        .rewards-banner {
+            background: var(--cfa-white);
+            border: 1px solid #eee;
+            border-left: 6px solid var(--cfa-red);
+            padding: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .rewards-text h2 {
+            margin: 0 0 8px 0;
+            font-size: 28px;
+        }
+
+        .rewards-text p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .tier-chips {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .chip {
+            font-size: 11px;
+            padding: 4px 16px;
+            border-radius: 99px;
+            background: #f0f0f0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chip.active {
+            background: var(--cfa-red);
+            color: white;
+        }
+
+        /* --- TESTIMONIALS --- */
+        #testimonials {
+            padding: 100px 8%;
+            background: var(--cfa-cream);
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        /* --- LOCATIONS --- */
+        #locations {
+            padding: 100px 8%;
+            background: white;
+        }
+
+        .location-search {
+            display: flex;
+            gap: 12px;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .search-bar {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 14px 20px;
+            border-radius: 4px;
+            font-size: 15px;
+            background: #fafafa;
+            outline: none;
+        }
+
+        .search-bar:focus {
+            border-color: var(--cfa-red);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--cfa-charcoal);
+            color: rgba(255,255,255,0.5);
+            padding: 40px 8%;
+            font-size: 13px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col a {
+            color: inherit;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        /* --- ANIMATIONS & SHOW ON SCROLL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- MOBILE --- */
+        @media (max-width: 900px) {
+            .hero-container {
+                flex-direction: column;
+            }
+            .hero-side {
+                flex: none;
+                padding: 100px 8% 60px;
+                text-align: center;
+                align-items: center;
+            }
+            .hero-image-side {
+                display: none;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                color: var(--cfa-charcoal) !important;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .features-row {
+                grid-template-columns: 1fr;
+            }
+            .rewards-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Promo Ticker -->
+    <div class="promo-ticker">🔥 Limited Time: Try the New Honey Pepper Pimento Chicken Sandwich</div>
+
+    <!-- Sticky Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Chick-fil-A</a>
+        <div class="nav-links" id="navLinks">
+            <a href="#menu">Menu</a>
+            <a href="#locations">Locations</a>
+            <a href="#rewards">Rewards</a>
+            <a href="#about">About</a>
+        </div>
+        <a href="#" class="btn-order">Order Now</a>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="hero-container">
+            <section class="hero-side reveal">
+                <div class="hero-badge">⭐ #1 Rated Fast Food in America</div>
+                <h1 class="hero-h1">More Than<br>a Meal.</h1>
+                <p class="hero-p">Crafted with care. Served with heart. Every single day. Experience Southern hospitality in every bite.</p>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn-white">Explore Our Menu</a>
+                    <a href="#locations" class="btn-outline">Find a Location</a>
+                </div>
+            </section>
+            <section class="hero-image-side"></section>
+        </div>
+    </header>
+
+    <!-- Featured Menu Section -->
+    <section id="menu">
+        <div class="section-header reveal">
+            <h2>Fan Favorites</h2>
+            <a href="#" class="view-all-link">View Full Menu →</a>
+        </div>
+        <div class="menu-grid">
+            <article class="menu-card reveal">
+                <div class="food-icon">🍔</div>
+                <div class="food-name">Original Chicken Sandwich</div>
+                <div class="food-price">$5.45</div>
+                <p class="food-desc">Seasoned breast of chicken served on a toasted, buttered bun with dill pickle chips.</p>
+                <button class="add-btn">+ Add to Order</button>
+            </article>
+
+            <article class="menu-card reveal">
+                <div class="food-icon">🌶️</div>
+                <div class="food-name">Spicy Deluxe Sandwich</div>
+                <div class="food-price">$6.15</div>
+                <p class="food-desc">Spicy seasoned chicken breast with lettuce, tomato, and Pepper Jack Cheese.</p>
+                <button class="add-btn">+ Add to Order</button>
+            </article>
+
+            <article class="menu-card reveal">
+                <div class="food-icon">🍗</div>
+                <div class="food-name">Chick-fil-A Nuggets (8-ct)</div>
+                <div class="food-price">$5.85</div>
+                <p class="food-desc">Bite-sized pieces of boneless chicken breast, pressure cooked in peanut oil.</p>
+                <button class="add-btn">+ Add to Order</button>
+            </article>
+
+            <article class="menu-card reveal">
+                <div class="food-icon">🍟</div>
+                <div class="food-name">Waffle Potato Fries</div>
+                <div class="food-price">$3.05</div>
+                <p class="food-desc">Waffle-cut potatoes cooked until crispy outside and tender inside.</p>
+                <button class="add-btn">+ Add to Order</button>
+            </article>
+        </div>
+    </section>
+
+    <!-- Why Chick-fil-A Section -->
+    <section id="about">
+        <div class="section-header reveal">
+            <h2>Why Millions Choose Us</h2>
+        </div>
+        <div class="features-row">
+            <div class="feature-block reveal">
+                <h3>Genuine Hospitality</h3>
+                <p>Our team goes above and beyond, every visit. It's our pleasure to serve you.</p>
+            </div>
+            <div class="feature-block reveal">
+                <h3>Fresh Ingredients</h3>
+                <p>We hand-bread every chicken fillet and squeeze lemons fresh for our lemonade.</p>
+            </div>
+            <div class="feature-block reveal">
+                <h3>#1 In Satisfaction</h3>
+                <p>Recognized as the leader in customer satisfaction for 9 years running.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section id="rewards">
+        <div class="rewards-banner reveal">
+            <div class="rewards-text">
+                <h2>Chick-fil-A One® Rewards</h2>
+                <p>Turn every bite into points and free treats.</p>
+                <div class="tier-chips">
+                    <span class="chip active">Member</span>
+                    <span class="chip">Silver</span>
+                    <span class="chip">Red</span>
+                    <span class="chip">Signature</span>
+                </div>
+            </div>
+            <a href="#" class="btn-order" style="padding: 16px 32px; font-size: 16px;">Join Free Today</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <div class="section-header reveal">
+            <h2>Guest Stories</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="testimonial-card reveal">
+                <p>"Hands down the best chicken sandwich I've ever had. The service always makes my day. They really mean it when they say 'My Pleasure'."</p>
+                <p style="margin-top:20px; font-weight:bold; font-size:14px;">— Marcus T., Atlanta</p>
+            </div>
+
+            <div class="testimonial-card reveal">
+                <p>"I come here every Sunday after church. It's become a family tradition. Even with the long lines, they move so fast and always get it right!"</p>
+                <p style="margin-top:20px; font-weight:bold; font-size:14px;">— Linda R., Charlotte</p>
+            </div>
+
+            <div class="testimonial-card reveal">
+                <p>"The Chick-fil-A app makes ordering so easy and the rewards are actually worth it. I've already earned three free meals this month!"</p>
+                <p style="margin-top:20px; font-weight:bold; font-size:14px;">— Priya K., Houston</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations -->
+    <section id="locations">
+        <div class="section-header reveal">
+            <h2>Find a Location</h2>
+        </div>
+        <div class="location-search reveal">
+            <input type="text" class="search-bar" placeholder="Enter zip code or city...">
+            <button class="btn-order" style="border-radius: 4px;">Search</button>
+        </div>
+        <div class="menu-grid">
+            <div class="location-card reveal" style="border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                <h3>Downtown Atlanta</h3>
+                <p style="font-size:14px; color:#666;">123 Peachtree St NE<br>Mon–Sat 6:30AM–10PM</p>
+                <a href="#" style="color:var(--cfa-red); font-weight:bold; font-size:13px; text-decoration:none; display:block; margin-top:15px;">Get Directions →</a>
+            </div>
+            <div class="location-card reveal" style="border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                <h3>Uptown Charlotte</h3>
+                <p style="font-size:14px; color:#666;">456 North Tryon St<br>Mon–Sat 6:00AM–10PM</p>
+                <a href="#" style="color:var(--cfa-red); font-weight:bold; font-size:13px; text-decoration:none; display:block; margin-top:15px;">Get Directions →</a>
+            </div>
+            <div class="location-card reveal" style="border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                <h3>Houston Galleria</h3>
+                <p style="font-size:14px; color:#666;">5085 Westheimer Rd<br>Mon–Sat 6:30AM–10PM</p>
+                <a href="#" style="color:var(--cfa-red); font-weight:bold; font-size:13px; text-decoration:none; display:block; margin-top:15px;">Get Directions →</a>
+            </div>
+        </div>
+        <p style="font-size: 11px; margin-top: 32px; color: #777; text-align: center;"><strong>Closed Sundays</strong> — so our team can rest and recharge.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="logo" style="color: white;">Chick-fil-A</div>
+            <div style="display: flex; gap: 20px;">
+                <span>📘</span><span>📸</span><span>𝕏</span><span>📺</span>
+            </div>
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="#">Nutrition</a></li>
+                    <li><a href="#">Catering</a></li>
+                    <li><a href="#">Order Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 Chick-fil-A, Inc. All rights reserved.</div>
+            <div style="display: flex; gap: 20px;">
+                <span>Accessibility</span>
+                <span>Cookie Policy</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Close menu on click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Parallax Effect for Hero
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('header');
+            const scrolled = window.pageYOffset;
+            hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+        });
+
+        // Smooth Scroll handling (built-in in CSS but extra JS for precision)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if(this.getAttribute('href') === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
